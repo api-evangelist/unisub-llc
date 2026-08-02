@@ -1,0 +1,46 @@
+generated: '2026-07-21'
+method: searched
+source: https://unisub.io
+name: UniSub Embeddable Components
+description: >-
+  UniSub's merchant integration is component-first: an embeddable payment
+  widget and hosted checkout links rather than a documented public REST
+  surface. The widget is configured from the merchant dashboard
+  (app.unisub.io/merchant/new-widget) and embedded on the merchant's site to
+  collect recurring crypto subscription payments wallet-to-wallet.
+families:
+  - family: Payments
+    components:
+      - name: Payment widget
+        kind: embeddable-widget
+        description: >-
+          Embeddable subscription-payment widget merchants place on their own
+          website; customers connect a wallet (MetaMask, WalletConnect,
+          Coinbase Wallet) and approve a recurring on-chain subscription.
+          Advertised on unisub.io ("customize embed widget") and created from
+          the merchant dashboard at app.unisub.io/merchant/new-widget.
+        evidence:
+          - https://unisub.io
+          - https://app.unisub.io/merchant/new-widget
+      - name: Checkout links
+        kind: hosted-surface
+        description: >-
+          Hosted checkout links merchants can share directly with customers as
+          an alternative to embedding the widget ("customize embed widget and
+          checkout links").
+        evidence:
+          - https://unisub.io
+  - family: Dashboard
+    components:
+      - name: Merchant dashboard
+        kind: hosted-dashboard
+        description: >-
+          Hosted merchant dashboard (app.unisub.io) for creating subscription
+          orders, managing subscribers, viewing charge history, and analytics.
+        evidence:
+          - https://app.unisub.io
+notes: >-
+  No client loader library or npm package is published for the widget; no
+  public embed documentation was found on unisub.io, blog.unisub.io, or the
+  Unisub-io GitHub org as of 2026-07-21. Integration details are provided to
+  merchants after sign-up (support: info@unisub.io).

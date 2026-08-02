@@ -1,7 +1,27 @@
 aid: unisub-llc
 name: Unisub LLC
-description: Unisub LLC is a company surfaced as a portfolio company of 500-global and added to the API
-  Evangelist network as a stub for enrichment. This profile is a lead awaiting the enrichment pipeline.
+description: >-
+  UniSub is a recurring crypto-payments platform that lets merchants accept
+  automated on-chain subscriptions and deposits directly from customer wallets
+  (MetaMask, WalletConnect, Coinbase Wallet) in USDT, USDC, DAI, WBTC, WETH and
+  other ERC20/Polygon tokens across EVM-compatible chains. Subscriptions are
+  executed by audited smart contracts, and merchants integrate through an
+  embeddable payment widget, checkout links, or per-merchant API/webhooks, with
+  a hosted dashboard for subscribers and analytics. A 500 Global portfolio
+  company based in Batumi, Georgia, UniSub also publishes its SubscriptionApp
+  smart contracts and a The Graph subgraph on GitHub.
+accessModel:
+  pricing: unknown
+  onboarding: unknown
+  trial: false
+  try_now: false
+  public: false
+  label: Unknown
+  confidence: low
+  source: []
+  generated: '2026-07-22'
+  method: derived
+image: https://app.unisub.io/assets/unisub-logo-vertical.svg
 url: https://raw.githubusercontent.com/api-evangelist/unisub-llc/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
@@ -10,10 +30,21 @@ x-backed-by:
 x-tier: stub
 x-tier-reason: portfolio-lead
 specificationVersion: '0.20'
+x-enrichment:
+  date: '2026-07-21'
+  status: enriched
+  artifacts_added: 5
+  pass: local-v1
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-21'
 tags:
 - Company
+- Payments
+- Cryptocurrency
+- Subscriptions
+- Recurring Billing
+- Web3
+- Blockchain
 apis: []
 maintainers:
 - FN: Kin Lane
@@ -23,3 +54,27 @@ maintainers:
 common:
 - type: Website
   url: https://unisub.io
+- type: Blog
+  url: https://blog.unisub.io/
+- type: Pricing
+  url: https://unisub.io/pricing
+- type: Security
+  url: https://unisub.io/security
+- type: Support
+  name: FAQ
+  url: https://unisub.io/faq
+- type: Login
+  name: Merchant App
+  url: https://app.unisub.io
+- type: GitHubOrganization
+  url: https://github.com/Unisub-io
+- type: GraphQL
+  url: graphql/unisub-llc-graphql.md
+- type: DataModel
+  url: data-model/unisub-llc-data-model.yml
+- type: Components
+  url: components/unisub-llc-components.yml
+- type: LLMsTxt
+  url: llms/unisub-llc-llms.txt
+- type: DomainSecurity
+  url: security/unisub-llc-domain-security.yml

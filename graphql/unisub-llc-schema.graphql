@@ -1,0 +1,210 @@
+type Order @entity {
+  id: ID!
+  merchant: Merchant!
+  chargePerInterval: BigInt!
+  extraBudgetPerInterval: BigInt!
+  erc20: ERC20Token!
+  intervalDuration: String!
+  startTime: BigInt!
+  totalCharged: BigInt!
+  numberOfCustomers: BigInt!
+  customerOrders: [CustomerOrder!]! @derivedFrom(field:"order")
+  customerOrderPaymentHistory: [CustomerOrderPaymentHistory!]! @derivedFrom(field:"order")
+  customerGasSavingDepositHistory: [CustomerGasSavingDepositHistory!]! @derivedFrom(field:"order")
+  paused: Boolean!
+  merchantDefaultNumberOfOrderIntervals: BigInt!
+  extraBudgetRequests: [ExtraBudgetRequest!]! @derivedFrom(field:"order")
+  extraBudgetPaymentsHistory: [ExtraBudgetPaidOutRecord!]! @derivedFrom(field:"order")
+  extraBudgetRefundedRecordList: [ExtraBudgetRefundedRecord!]! @derivedFrom(field:"order")
+}
+
+type CustomerOrder @entity {
+  id: ID!
+  order: Order!
+  customerWallet: CustomerWallet!
+  merchant: Merchant!
+  approvedPeriodsRemaining: BigInt!
+  firstPaymentMadeTimestamp: BigInt!
+  trialIntervalsRemaining: BigInt!
+  numberOfIntervalsPaid: BigInt!
+  nextPaymentTimestamp: BigInt!
+  lastOutstandingPaymentFailed: Boolean!
+  terminated: Boolean!
+  amountPaidToDate: BigInt!
+  numberOfPaymentsInHistory: BigInt!
+  extraBudgetPerInterval: BigInt!
+  customerOrderPaymentHistory: [CustomerOrderPaymentHistory!]! @derivedFrom(field:"customerOrder")
+  customerGasSavingDepositHistory: [CustomerGasSavingDepositHistory!]! @derivedFrom(field:"customerOrder")
+}
+
+type CustomerOrderPaymentHistory @entity {
+  id: ID! # orderId - customer Eth address - index of the payment in array
+  merchant: Merchant!
+  customerWallet: CustomerWallet!
+  order: Order!
+  customerOrder: CustomerOrder!
+  timestamp: BigInt!
+  txHash: Bytes!
+  amount: BigInt!
+  description: String!
+  tokenSymbol: String!
+  feePercentage: BigInt!
+  gasSaving: Boolean!
+  customerGasSavingDepositHistory: CustomerGasSavingDepositHistory
+}
+type CustomerGasSavingDepositHistory @entity {
+  id: ID! # orderId - customer Eth address - index of the payment in array
+  merchant: Merchant!
+  customerWallet: CustomerWallet!
+  order: Order!
+  customerOrder: CustomerOrder!
+  timestamp: BigInt!
+  txHash: Bytes!
+  merchantAmount: BigInt!
+  feeAmount: BigInt!
+}
+
+type ERC20Token @entity {
+    id: ID!
+    name: String!
+    symbol: String!
+    decimals: BigInt!
+    ownerERC20DepositsBalance: [OwnerERC20DepositsBalance!]! @derivedFrom(field:"erc20")
+    merchantERC20DepositsBalance: [MerchantERC20DepositsBalance!]! @derivedFrom(field:"erc20")
+}
+
+type CustomerERC20ApprovalAndBalance @entity {
+    id: ID! # erc20 token and customer eth address
+    erc20: ERC20Token!
+    customerWallet: CustomerWallet!
+    currentAllowance: BigInt
+    currentBalance: BigInt
+}
+
+type Merchant @entity {
+    id: ID!
+    customerOrders: [CustomerOrder!]! @derivedFrom(field:"merchant")
+    customerOrderPaymentHistory: [CustomerOrderPaymentHistory!]! @derivedFrom(field:"merchant")
+    customerGasSavingDepositHistory: [CustomerGasSavingDepositHistory!]! @derivedFrom(field:"merchant")
+    successfulPayments: [SuccessfulPayment!]! @derivedFrom(field:"merchant")
+    failedPayments: [FailedPayment!]! @derivedFrom(field:"merchant")
+    extraBudgetPaymentsHistory: [ExtraBudgetPaidOutRecord!]! @derivedFrom(field:"merchant")
+    extraBudgetPayouts: [ExtraBudgetPaidOutRecord!]! @derivedFrom(field:"merchant")
+    extraBudgetRefundedRecordList: [ExtraBudgetRefundedRecord!]! @derivedFrom(field:"merchant")
+    merchantSpecificExtraBudgetLockTime: BigInt
+}
+
+type CustomerWallet @entity {
+    id: ID!
+    customerOrders: [CustomerOrder!]! @derivedFrom(field:"customerWallet")
+    customerOrderPaymentHistory: [CustomerOrderPaymentHistory!]! @derivedFrom(field:"customerWallet")
+    customerERC20ApprovalsAndBalances: [CustomerERC20ApprovalAndBalance!]! @derivedFrom(field:"customerWallet")
+    wallet: Wallet!
+    customer: Customer!
+    extraBudgetRequests: [ExtraBudgetRequest!]! @derivedFrom(field:"customerWallet")
+    ExtraBudgetRefundedRecordList: [ExtraBudgetRefundedRecord!]! @derivedFrom(field:"customerWallet")
+}
+
+type Wallet @entity {
+  id: ID!
+  customers: [CustomerWallet!]! @derivedFrom(field: "wallet")
+}
+
+type Customer @entity {
+  id: ID!
+  wallets: [CustomerWallet!]! @derivedFrom(field: "customer")
+}
+
+type SuccessfulPayment @entity {
+    id: ID! # order id - customer address - transaction hash
+    merchant: Merchant!
+    customerWallet: CustomerWallet!
+    customerOrder: CustomerOrder!
+    order: Order!
+    txHash: Bytes!
+    timestamp: BigInt!
+    amount: BigInt!
+    description: String!
+    tokenSymbol: String!
+}
+
+type FailedPayment @entity {
+    id: ID! # order id - customer address - transaction hash
+    merchant: Merchant!
+    customerWallet: CustomerWallet!
+    customerOrder: CustomerOrder!
+    order: Order!
+    txHash: Bytes!
+    timestamp: BigInt!
+    amount: BigInt!
+    description: String!
+    tokenSymbol: String!
+}
+
+type OwnerERC20DepositsBalance @entity {
+    id: ID! # erc20 token address
+    erc20: ERC20Token!
+    amount: BigInt!
+    ownerWithdrawalHistory: [OwnerWithdrawalHistory!]! @derivedFrom(field:"depositsBalance")
+}
+
+type MerchantERC20DepositsBalance @entity {
+    id: ID! # merchant eth address - erc20 token address
+    merchant: Merchant!
+    erc20: ERC20Token!
+    amount: BigInt!
+    merchantWithdrawalHistory: [MerchantWithdrawalHistory!]! @derivedFrom(field:"depositsBalance")
+}
+
+type OwnerWithdrawalHistory @entity {
+    id: ID! # tx hash
+    depositsBalance: OwnerERC20DepositsBalance!
+    timestamp: BigInt!
+    amount: BigInt!
+}
+
+type MerchantWithdrawalHistory @entity {
+    id: ID! # tx hash
+    depositsBalance: MerchantERC20DepositsBalance!
+    timestamp: BigInt!
+    amount: BigInt!
+}
+
+enum ExtraBudgetRequestStatus {
+  PENDING
+  PAID
+  REFUNDED
+}
+
+type ExtraBudgetRequest @entity {
+    id: ID!
+    merchant: Merchant!
+    order: Order!
+    customerWallet: CustomerWallet!
+    index: BigInt!
+    extraAmount: BigInt!
+    pendingPeriods: BigInt!
+    status: ExtraBudgetRequestStatus!
+    requestTxHash: Bytes!
+    settleTransaction: ExtraBudgetPaidOutRecord # The idea here is to create it from the tx hash when the tx is settled
+    refundTransaction: ExtraBudgetRefundedRecord # The idea here is to create it from the tx hash when the tx is settled
+}
+
+type ExtraBudgetPaidOutRecord @entity {
+    id: ID! # Tx hash
+    order: Order!
+    merchant: Merchant!
+    totalAmount: BigInt # will be null during instantiation
+    startIndex: BigInt
+    endIndex: BigInt
+    requests: [ExtraBudgetRequest!]! @derivedFrom(field:"settleTransaction")
+}
+
+type ExtraBudgetRefundedRecord @entity {
+    id: ID! # Tx hash
+    order: Order!
+    merchant: Merchant!
+    customerWallet: CustomerWallet!
+    refundedAmount: BigInt!
+    request: ExtraBudgetRequest!
+}

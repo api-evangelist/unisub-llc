@@ -1,0 +1,70 @@
+generated: '2026-07-21'
+method: derived
+source: graphql/unisub-llc-schema.graphql
+docs: https://github.com/Unisub-io/subscription-app/blob/main/subgraph/schema.graphql
+notation: >-
+  relationships use has_one / has_many / belongs_to with the referencing field
+  name; direction is from the entity that owns the reference. Derived from the
+  entity references and @derivedFrom reverse-lookups in UniSub's public
+  subscription-app subgraph GraphQL schema (The Graph, Polygon).
+
+entities:
+  - {name: Merchant, domain: commerce, description: A merchant (Ethereum address) selling recurring subscriptions; owner of orders, payment history, and payout balances.}
+  - {name: Customer, domain: commerce, description: A customer identity that can span multiple wallets.}
+  - {name: Wallet, domain: commerce, description: An Ethereum wallet address; joined to customers through CustomerWallet.}
+  - {name: CustomerWallet, domain: commerce, description: The join of a customer and a wallet; the paying identity on subscription orders.}
+  - {name: Order, domain: billing, description: A merchant's subscription product - charge per interval, interval duration, ERC20 token, pause state.}
+  - {name: CustomerOrder, domain: billing, description: A customer wallet's active subscription to an Order - approved periods, trial intervals, next payment timestamp, termination state.}
+  - {name: CustomerOrderPaymentHistory, domain: payments, description: A per-interval charge record with tx hash, amount, token symbol, fee percentage, and gas-saving flag.}
+  - {name: SuccessfulPayment, domain: payments, description: A successful subscription charge event record.}
+  - {name: FailedPayment, domain: payments, description: A failed subscription charge event record.}
+  - {name: CustomerGasSavingDepositHistory, domain: payments, description: A gas-saving-mode deposit record splitting merchant amount and fee amount.}
+  - {name: ERC20Token, domain: tokens, description: An ERC20 token (name, symbol, decimals) used to denominate orders and balances.}
+  - {name: CustomerERC20ApprovalAndBalance, domain: tokens, description: A customer wallet's current allowance and balance for an ERC20 token.}
+  - {name: OwnerERC20DepositsBalance, domain: money-movement, description: Platform-owner fee balance held per ERC20 token.}
+  - {name: MerchantERC20DepositsBalance, domain: money-movement, description: A merchant's withdrawable balance per ERC20 token.}
+  - {name: OwnerWithdrawalHistory, domain: money-movement, description: A platform-owner withdrawal transaction record.}
+  - {name: MerchantWithdrawalHistory, domain: money-movement, description: A merchant withdrawal transaction record.}
+  - {name: ExtraBudgetRequest, domain: billing, description: A request for extra budget on an order (PENDING/PAID/REFUNDED) with settle/refund transaction links.}
+  - {name: ExtraBudgetPaidOutRecord, domain: billing, description: A settlement transaction paying out a batch of extra-budget requests.}
+  - {name: ExtraBudgetRefundedRecord, domain: billing, description: A refund transaction for an extra-budget request.}
+
+relationships:
+  - {from: Order, to: Merchant, kind: belongs_to, via: merchant}
+  - {from: Order, to: ERC20Token, kind: belongs_to, via: erc20}
+  - {from: Order, to: CustomerOrder, kind: has_many, via: order}
+  - {from: Order, to: CustomerOrderPaymentHistory, kind: has_many, via: order}
+  - {from: Order, to: CustomerGasSavingDepositHistory, kind: has_many, via: order}
+  - {from: Order, to: ExtraBudgetRequest, kind: has_many, via: order}
+  - {from: Order, to: ExtraBudgetPaidOutRecord, kind: has_many, via: order}
+  - {from: Order, to: ExtraBudgetRefundedRecord, kind: has_many, via: order}
+  - {from: CustomerOrder, to: Order, kind: belongs_to, via: order}
+  - {from: CustomerOrder, to: CustomerWallet, kind: belongs_to, via: customerWallet}
+  - {from: CustomerOrder, to: Merchant, kind: belongs_to, via: merchant}
+  - {from: CustomerOrder, to: CustomerOrderPaymentHistory, kind: has_many, via: customerOrder}
+  - {from: CustomerOrder, to: CustomerGasSavingDepositHistory, kind: has_many, via: customerOrder}
+  - {from: CustomerOrderPaymentHistory, to: CustomerOrder, kind: belongs_to, via: customerOrder}
+  - {from: CustomerOrderPaymentHistory, to: CustomerGasSavingDepositHistory, kind: has_one, via: customerGasSavingDepositHistory}
+  - {from: Merchant, to: CustomerOrder, kind: has_many, via: merchant}
+  - {from: Merchant, to: SuccessfulPayment, kind: has_many, via: merchant}
+  - {from: Merchant, to: FailedPayment, kind: has_many, via: merchant}
+  - {from: Merchant, to: MerchantERC20DepositsBalance, kind: has_many, via: merchant}
+  - {from: CustomerWallet, to: Wallet, kind: belongs_to, via: wallet}
+  - {from: CustomerWallet, to: Customer, kind: belongs_to, via: customer}
+  - {from: CustomerWallet, to: CustomerERC20ApprovalAndBalance, kind: has_many, via: customerWallet}
+  - {from: CustomerWallet, to: ExtraBudgetRequest, kind: has_many, via: customerWallet}
+  - {from: Customer, to: CustomerWallet, kind: has_many, via: customer}
+  - {from: Wallet, to: CustomerWallet, kind: has_many, via: wallet}
+  - {from: SuccessfulPayment, to: CustomerOrder, kind: belongs_to, via: customerOrder}
+  - {from: FailedPayment, to: CustomerOrder, kind: belongs_to, via: customerOrder}
+  - {from: CustomerERC20ApprovalAndBalance, to: ERC20Token, kind: belongs_to, via: erc20}
+  - {from: OwnerERC20DepositsBalance, to: ERC20Token, kind: belongs_to, via: erc20}
+  - {from: OwnerERC20DepositsBalance, to: OwnerWithdrawalHistory, kind: has_many, via: depositsBalance}
+  - {from: MerchantERC20DepositsBalance, to: Merchant, kind: belongs_to, via: merchant}
+  - {from: MerchantERC20DepositsBalance, to: ERC20Token, kind: belongs_to, via: erc20}
+  - {from: MerchantERC20DepositsBalance, to: MerchantWithdrawalHistory, kind: has_many, via: depositsBalance}
+  - {from: ExtraBudgetRequest, to: Order, kind: belongs_to, via: order}
+  - {from: ExtraBudgetRequest, to: ExtraBudgetPaidOutRecord, kind: belongs_to, via: settleTransaction}
+  - {from: ExtraBudgetRequest, to: ExtraBudgetRefundedRecord, kind: belongs_to, via: refundTransaction}
+  - {from: ExtraBudgetPaidOutRecord, to: ExtraBudgetRequest, kind: has_many, via: settleTransaction}
+  - {from: ExtraBudgetRefundedRecord, to: ExtraBudgetRequest, kind: belongs_to, via: request}
