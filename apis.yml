@@ -1,5 +1,5 @@
 aid: unisub-llc
-name: Unisub LLC
+name: Unisub
 description: >-
   UniSub is a recurring crypto-payments platform that lets merchants accept
   automated on-chain subscriptions and deposits directly from customer wallets
@@ -97,3 +97,4 @@ common:
   url: llms/unisub-llc-llms.txt
 - type: DomainSecurity
   url: security/unisub-llc-domain-security.yml
+x-legal-name: Unisub LLC
