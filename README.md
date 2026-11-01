@@ -1,4 +1,4 @@
-# Unisub LLC
+# Unisub
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,6 +64,90 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Unisub LLC is a company surfaced as a portfolio company of 500-global and added to the API Evangelist network as a stub for enrichment. This profile is a lead awaiting the enrichment pipeline.
+UniSub is a recurring crypto-payments platform that lets merchants accept automated on-chain subscriptions and deposits directly from customer wallets (MetaMask, WalletConnect, Coinbase Wallet) in USDT, USDC, DAI, WBTC, WETH and other ERC20/Polygon tokens across EVM-compatible chains. Subscriptions are executed by audited smart contracts, and merchants integrate through an embeddable payment widget, checkout links, or per-merchant API/webhooks, with a hosted dashboard for subscribers and analytics. A 500 Global portfolio company based in Batumi, Georgia, UniSub also publishes its SubscriptionApp smart contracts and a The Graph subgraph on GitHub.
 
-Backed by: 500-global — https://unisub.io
+**Areas:** Company · Payments · Cryptocurrency · Subscription · Recurring Billing · Web3 · Blockchain
+
+## Unisub on APIs.io
+
+Everything profiled for Unisub is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/unisub-llc/](https://apis.io/providers/unisub-llc/)** — or go straight to one of the APIs or properties below.
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### GraphQL (1)
+
+GraphQL schemas.
+
+- [UniSub Subscription-App Subgraph (GraphQL)](https://apis.io/graphqls/unisub-llc/unisub-llc-graphql/)
+
+#### Security (1)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Unisub Llc Domain Security](https://apis.io/security/unisub-llc/unisub-llc-domain-security/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://unisub.io)
+- [Pricing](https://unisub.io/pricing)
+- [Support](https://unisub.io/faq)
+- [Blog](https://blog.unisub.io/)
+- [Security](https://unisub.io/security)
+- [GitHub](https://github.com/Unisub-io)
+
+## API Evangelist rating
+
+**Kin Score 19.4** — emerging · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 48.2 |
+| Contract quality | 35.1 |
+| Contract governance | 0.0 |
+| Operational transparency | 13.2 |
+| Developer ergonomics | 7.1 |
+| Access clarity | 23.7 |
+
+**Agent readiness 12.9** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | — |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | — |
+| Rate Limit Signal | — |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 5.4** — Payments
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/unisub-llc/](https://apis.io/providers/unisub-llc/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Unisub: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/unisub-llc/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
